@@ -108,10 +108,13 @@ p<- ggplot(lifetime, aes(EasterSundayDay, ..count.., position = "stack")) +
         panel.grid.minor.x = element_blank(),
         axis.ticks.x = element_line())
 
-
+# Modifying to annotate each year for each date separately rather than pasting them together in a big glob
 for (day in seq(nrow(labels))) {
-  p <- p + annotate("text",x=labels$EasterSundayDay[day], y=0.3, label=paste(unlist(labels$years[day]), collapse = "                "), 
-               vjust = 0.3, hjust = 0, angle = 90, colour="white")
+  yvalue = 0.4
+  for (years_for_that_day in 1:length(labels$years[[day]])) {
+    p <- p + annotate("text",x=labels$EasterSundayDay[day], y=yvalue, label=labels$years[[day]][years_for_that_day], vjust = 0.3, hjust = 0, angle = 90, colour="white")
+    yvalue = yvalue + 1
+    }
 }
 
 p
